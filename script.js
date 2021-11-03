@@ -17,6 +17,21 @@ let isLeft = false;
 let isJumping = false;
 
 //-----------------------------------------------------
+//                     MUSIC & SOUNDS
+//-----------------------------------------------------
+
+let startAudio = new Audio();
+startAudio.src = "./images/startAudio.mp3";
+let gameAudio = new Audio();
+gameAudio.src = "./images/gameSound.wav";
+let gameOverAudio = new Audio();
+gameOverAudio.src = "./images/gameOverSound.wav";
+let catchSound = new Audio();
+catchSound.src = "./images/catchSound.mp3";
+let errorSound = new Audio();
+errorSound.src = "./images/errorSound.mp3";
+
+//-----------------------------------------------------
 //                     IMAGES
 //-----------------------------------------------------
 
@@ -114,7 +129,7 @@ let projectileLimite = 568;
 //-----------------------------------------------------
 
 //--------------------------Play---------------------------
-function play() {
+function startPlaying() {
   canvas.style.display = "block";
   playBtn.style.display = "none";
   restartBtn.style.display = "none";
@@ -125,9 +140,14 @@ function play() {
   gameOverText.style.display = "none";
   gameOverScore.style.display = "none";
   animation();
+  gameAudio.play();
+  gameAudio.volume = 0.1;
+  gameAudio.loop = true;
+  startAudio.volume = 0;
+  gameOverAudio.volume = 0;
 }
 
-//-------------------------Game Over------------------------
+//-------------------------Game Over--------------------
 
 function gameOverScreen() {
   canvas.style.display = "none";
@@ -140,7 +160,14 @@ function gameOverScreen() {
   gameOverText.style.display = "block";
   gameOverScore.style.display = "block";
   gameOverScore.innerText = `SCORE: ${score}... Not too bad`;
+  gameOverAudio.play();
+  gameOverAudio.volume = 0.1;
+  gameOverAudio.loop = true;
+  gameAudio.volume = 0;
+  gameAudio.loop = false;
+  startAudio.volume = 0;
 }
+
 
 /* function restartGame () {
   gameOver = false;
@@ -333,6 +360,8 @@ window.addEventListener("load", () => {
   gameOverImg.style.display = "none";
   gameOverText.style.display = "none";
   gameOverScore.style.display = "none";
+  startAudio.play();
+  startAudio.volume = 0.2;
 
   document.addEventListener("keydown", (event) => {
     if (event.key == "ArrowRight") {
@@ -355,7 +384,7 @@ window.addEventListener("load", () => {
   });
 
   playBtn.addEventListener("click", () => {
-    play();
+    startPlaying();
   });
 
   restartBtn.addEventListener("click", () => {
@@ -364,7 +393,7 @@ window.addEventListener("load", () => {
     geekY = 390;
     projectiles = [{ x: manishX, y: manishY, img: css, isGood: true }];
     score = 0;
-    play();
+    startPlaying();
     //restartGame();
   });
 });
