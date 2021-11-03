@@ -4,6 +4,12 @@ let ctx = canvas.getContext("2d");
 let playBtn = document.querySelector("#start");
 let restartBtn = document.querySelector("#restart");
 let startImage = document.querySelector("#startImage");
+let text = document.querySelector("#intro");
+let gameOverText = document.querySelector("#GameOverText");
+let gameOverTitle = document.querySelector("#gameOverTitle");
+let mainTitle = document.querySelector("#mainTitle");
+let gameOverImg = document.querySelector("#gameOverImg");
+let gameOverScore = document.querySelector("#gameOverScore");
 let gameOver = false;
 let intervalId = 0;
 let isRight = false;
@@ -96,11 +102,12 @@ let projectiles = [
 //-----------------------------------------------------
 let speed = 10;
 let geekSpeed = 0.2;
+let projectileSpeed = 4;
 let gravity = 8.3;
 let geekGravity = 10;
 let jump = -20;
 let score = 0;
-let projectileLimite = 590;
+let projectileLimite = 568;
 
 //-----------------------------------------------------
 //                     FUNCTIONS
@@ -112,6 +119,11 @@ function play() {
   playBtn.style.display = "none";
   restartBtn.style.display = "none";
   startImage.style.display = "none";
+  text.style.display = "none";
+  gameOverTitle.style.display = "none";
+  gameOverImg.style.display = "none";
+  gameOverText.style.display = "none";
+  gameOverScore.style.display = "none";
   animation();
 }
 
@@ -122,6 +134,12 @@ function gameOverScreen() {
   playBtn.style.display = "none";
   restartBtn.style.display = "block";
   startImage.style.display = "none";
+  gameOverTitle.style.display = "block";
+  mainTitle.style.display = "none";
+  gameOverImg.style.display = "block";
+  gameOverText.style.display = "block";
+  gameOverScore.style.display = "block";
+  gameOverScore.innerText = `SCORE: ${score}... Not too bad`;
 }
 
 /* function restartGame () {
@@ -167,7 +185,7 @@ function draw() {
       50,
       50
     );
-    projectiles[i].x--;
+    projectiles[i].x = projectiles[i].x - projectileSpeed;
 
     if (projectiles[i].x === projectileLimite) {
       projectiles.push({
@@ -178,16 +196,21 @@ function draw() {
     }
 
     // Collision-----------------------------------
-    if (projectiles[i].img !== error) {
-      // Collision FRONT-------------------------
+
+    /* // Collision FRONT-------------------------
       if (
         geekX + geekWidth < projectiles[i].x + 50 &&
         geekX + geekWidth >= projectiles[i].x &&
         geekY + geekHeight >= projectiles[i].y &&
         geekY < projectiles[i].y
       ) {
-        score++;
-        projectiles[i].y = -100;
+        if (projectiles[i].img !== error) {
+          score++;
+          projectiles[i].y = -100;
+        } else {
+          gameOver = true;
+          projectiles[i].y = -100;
+        }
       }
       // Collision TOP-----------------------------
       if (
@@ -196,8 +219,13 @@ function draw() {
         geekY >= projectiles[i].y &&
         geekY < projectiles[i].y + 50
       ) {
-        score++;
-        projectiles[i].y = -100;
+        if (projectiles[i].img !== error) {
+          score++;
+          projectiles[i].y = -100;
+        } else {
+          gameOver = true;
+          projectiles[i].y = -100;
+        }
       }
       // Collision BOTTOM----------------------------
       if (
@@ -206,42 +234,34 @@ function draw() {
         geekX < projectiles[i].x + 50 &&
         geekY + geekHeight <= projectiles[i].y + 50
       ) {
+        if (projectiles[i].img !== error) {
+          score++;
+          projectiles[i].y = -100;
+        } else {
+          gameOver = true;
+          projectiles[i].y = -100;
+        }
+      } */
+
+    if (
+      projectiles[i].x < geekX + geekWidth &&
+      projectiles[i].x + 50 > geekX &&
+      projectiles[i].y < geekY + geekHeight &&
+      projectiles[i].y + 50 > geekY
+    ) {
+      if (projectiles[i].img !== error) {
         score++;
         projectiles[i].y = -100;
-      }
-    } else {
-      // Collision FRONT-------------------------
-      if (
-        geekX + geekWidth < projectiles[i].x + 50 &&
-        geekX + geekWidth >= projectiles[i].x &&
-        geekY + geekHeight >= projectiles[i].y &&
-        geekY < projectiles[i].y
-      ) {
-        gameOver = true;
-        projectiles[i].y = -100;
-      }
-      // Collision TOP-----------------------------
-      if (
-        geekX + geekWidth >= projectiles[i].x &&
-        geekX + geekWidth < projectiles[i].x + 50 &&
-        geekY >= projectiles[i].y &&
-        geekY < projectiles[i].y + 50
-      ) {
-        gameOver = true;
-        projectiles[i].y = -100;
-      }
-      // Collision BOTTOM----------------------------
-      if (
-        geekY + geekHeight >= projectiles[i].y &&
-        geekX >= projectiles[i].x &&
-        geekX < projectiles[i].x + 50 &&
-        geekY + geekHeight <= projectiles[i].y + 50
-      ) {
+      } else {
         gameOver = true;
         projectiles[i].y = -100;
       }
     }
   }
+  // Score
+  ctx.font = "28px Chakra Petch";
+  ctx.fillStyle = "#ffc43b";
+  ctx.fillText(`SCORE: ${score}`, 30, 30);
 
   // Drawing Manish---------------------------
   ctx.drawImage(manish, manishX, manishY);
@@ -261,10 +281,7 @@ function draw() {
 function animation() {
   // Clear the canvas
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  // Score
-  /* ctx.fillStyle = "white" */
-  ctx.font = "20px Chakra Petch";
-  ctx.fillText(`SCORE: ${score}`, 30, 30);
+
   // Trigger other functions
   draw();
   moves();
@@ -312,6 +329,10 @@ function moves() {
 window.addEventListener("load", () => {
   canvas.style.display = "none";
   restartBtn.style.display = "none";
+  gameOverTitle.style.display = "none";
+  gameOverImg.style.display = "none";
+  gameOverText.style.display = "none";
+  gameOverScore.style.display = "none";
 
   document.addEventListener("keydown", (event) => {
     if (event.key == "ArrowRight") {
@@ -338,12 +359,12 @@ window.addEventListener("load", () => {
   });
 
   restartBtn.addEventListener("click", () => {
-    play();
     gameOver = false;
     geekX = 100;
     geekY = 390;
     projectiles = [{ x: manishX, y: manishY, img: css, isGood: true }];
     score = 0;
+    play();
     //restartGame();
   });
 });

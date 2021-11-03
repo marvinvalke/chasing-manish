@@ -7,6 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch&display=swap" rel="stylesheet">
     <title>Chasing Manish</title>
     <link rel="stylesheet" href="style.css">
@@ -15,13 +18,24 @@
 <body>
     <div class="startScreen">
 
-        <h1>CHASING MANISH</h1>
-        <img id='startImage' src="/images/term.png" alt="">
-        <button id="start">PLAY</button>
+        <h1 id="mainTitle">CHASING MANISH</h1>
+        <img id='startImage' src="/images/codingIllustration.png" alt="">
+        <div>
+            <p id="intro">Becomming a great developer is not easy, but the Great Manish knows all the tricks to become a
+                master! <br> Catch programming languages but be careful of errors that might ruin your code.</p>
+        </div>
+        <form aria-placeholder="YOUR NAME"></form>
 
+        <button id='start'>PLAY</button>
     </div>
+
     <canvas width='800' height="500"></canvas>
-    <button id='restart'>PLAY AGAIN</button>
+    <h1 id="gameOverTitle">GAME OVER</h1>
+    <h2 id="gameOverScore"></h2>
+    <img id='gameOverImg' src="./images/gameOverImg.png" alt="">
+    <p id="GameOverText">You didn't mastered all the coding skills yet... <br>
+        Manish escaped with all his secrets. <br>Try again and this time don't let him run away !</p>
+    <button id='restart'>TRY AGAIN</button>
     <script src='script.js'></script>
 </body>
 
