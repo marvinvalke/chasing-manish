@@ -1,3 +1,7 @@
+//-----------------------------------------------------
+//                       DOM
+//-----------------------------------------------------
+
 let canvas = document.querySelector("canvas");
 canvas.style.border = "2px solid black";
 let ctx = canvas.getContext("2d");
@@ -10,11 +14,12 @@ let gameOverTitle = document.querySelector("#gameOverTitle");
 let mainTitle = document.querySelector("#mainTitle");
 let gameOverImg = document.querySelector("#gameOverImg");
 let gameOverScore = document.querySelector("#gameOverScore");
-let gameOver = false;
-let intervalId = 0;
-let isRight = false;
-let isLeft = false;
-let isJumping = false;
+let audioBtn = document.querySelector(".botón");
+let instructions = document.querySelector("#instructions");
+let finishTitle = document.querySelector("#finishTitle");
+let finishText = document.querySelector("#finishText");
+let finishImg = document.querySelector("#finishImg");
+let linkManish = document.querySelector("#linkManish");
 
 //-----------------------------------------------------
 //                     MUSIC & SOUNDS
@@ -42,6 +47,19 @@ let manish = new Image();
 manish.src = "./images/manish.png";
 let manishX = 700;
 let manishY = 150;
+
+let manish2 = new Image();
+manish2.src = "./images/manish2.png";
+
+let manish3 = new Image();
+manish3.src = "./images/manish3.png";
+
+let manish4 = new Image();
+manish4.src = "./images/manish4.png";
+
+let manishSprite = [manish, manish2, manish3, manish4];
+let manishCount = 0;
+let manishIndex = 0;
 
 let road = new Image();
 road.src = "./images/road.png";
@@ -82,6 +100,9 @@ let run = [geek, geekRight2, geekRight3, geekRight4, geekRight6, geekRight7];
 let rightCount = 0;
 let runIndex = 0;
 
+let geekJump3 = new Image();
+geekJump3.src = "./images/Jump3.png";
+
 let html = new Image();
 html.src = "./images/html.png";
 
@@ -96,7 +117,7 @@ error.src = "./images/error.png";
 
 let images = [error, html, error, css, error, js];
 
-//-------------------Objects-------------------------------------
+//-------------------Objects----------------------------
 
 let shops = [
   { x: roadX, y: 100 },
@@ -117,12 +138,17 @@ let projectiles = [
 //-----------------------------------------------------
 let speed = 10;
 let geekSpeed = 0.2;
-let projectileSpeed = 4;
+let projectileSpeed = 6;
 let gravity = 8.3;
 let geekGravity = 10;
 let jump = -20;
 let score = 0;
-let projectileLimite = 568;
+let projectileLimite = 550;
+let gameOver = false;
+let intervalId = 0;
+let isRight = false;
+let isJumping = false;
+let finished = false;
 
 //-----------------------------------------------------
 //                     FUNCTIONS
@@ -139,16 +165,22 @@ function startPlaying() {
   gameOverImg.style.display = "none";
   gameOverText.style.display = "none";
   gameOverScore.style.display = "none";
+  audioBtn.style.display = "none";
   animation();
   gameAudio.play();
   gameAudio.volume = 0.1;
   gameAudio.loop = true;
   startAudio.volume = 0;
   gameOverAudio.volume = 0;
+  instructions.style.display = "block";
+  mainTitle.style.display = "block";
+  finishTitle.style.display = "none";
+  finishText.style.display = "none";
+  finishImg.style.display = "none";
+  linkManish.style.display = "none";
 }
 
 //-------------------------Game Over--------------------
-
 function gameOverScreen() {
   canvas.style.display = "none";
   playBtn.style.display = "none";
@@ -163,18 +195,33 @@ function gameOverScreen() {
   gameOverAudio.play();
   gameOverAudio.volume = 0.1;
   gameOverAudio.loop = true;
-  gameAudio.volume = 0;
+  gameAudio.pause();
   gameAudio.loop = false;
-  startAudio.volume = 0;
+  startAudio.pause();
+  audioBtn.style.display = "none";
+  instructions.style.display = "none";
+  finishTitle.style.display = "none";
+  finishText.style.display = "none";
+  finishImg.style.display = "none";
+  linkManish.style.display = "none";
 }
-
-/* function restartGame () {
-  gameOver = false;
-  geekX = 100;
-  geekY = 390;
-  projectiles = [{ x: manishX, y: manishY, img: css, isGood: true }];
-  score = 0;
-} */
+//-------------------------Finish--------------------
+function finish() {
+  linkManish.style.display = "block";
+  finishTitle.style.display = "block";
+  finishText.style.display = "block";
+  finishImg.style.display = "block";
+  canvas.style.display = "none";
+  playBtn.style.display = "none";
+  restartBtn.style.display = "none";
+  startImage.style.display = "none";
+  mainTitle.style.display = "none";
+  audioBtn.style.display = "none";
+  instructions.style.display = "none";
+  startAudio.play();
+  startAudio.volume = 0.1;
+  gameAudio.pause();
+}
 
 // -----------Draw images & backgound------------------
 function draw() {
@@ -222,53 +269,6 @@ function draw() {
     }
 
     // Collision-----------------------------------
-
-    /* // Collision FRONT-------------------------
-      if (
-        geekX + geekWidth < projectiles[i].x + 50 &&
-        geekX + geekWidth >= projectiles[i].x &&
-        geekY + geekHeight >= projectiles[i].y &&
-        geekY < projectiles[i].y
-      ) {
-        if (projectiles[i].img !== error) {
-          score++;
-          projectiles[i].y = -100;
-        } else {
-          gameOver = true;
-          projectiles[i].y = -100;
-        }
-      }
-      // Collision TOP-----------------------------
-      if (
-        geekX + geekWidth >= projectiles[i].x &&
-        geekX + geekWidth < projectiles[i].x + 50 &&
-        geekY >= projectiles[i].y &&
-        geekY < projectiles[i].y + 50
-      ) {
-        if (projectiles[i].img !== error) {
-          score++;
-          projectiles[i].y = -100;
-        } else {
-          gameOver = true;
-          projectiles[i].y = -100;
-        }
-      }
-      // Collision BOTTOM----------------------------
-      if (
-        geekY + geekHeight >= projectiles[i].y &&
-        geekX >= projectiles[i].x &&
-        geekX < projectiles[i].x + 50 &&
-        geekY + geekHeight <= projectiles[i].y + 50
-      ) {
-        if (projectiles[i].img !== error) {
-          score++;
-          projectiles[i].y = -100;
-        } else {
-          gameOver = true;
-          projectiles[i].y = -100;
-        }
-      } */
-
     if (
       projectiles[i].x < geekX + geekWidth &&
       projectiles[i].x + 50 > geekX &&
@@ -278,11 +278,24 @@ function draw() {
       if (projectiles[i].img !== error) {
         score++;
         projectiles[i].y = -100;
+        catchSound.play();
+        catchSound.volume = 0.1;
+        catchSound.currentTime = 0;
       } else {
+        errorSound.play();
+        errorSound.volume = 0.1;
         gameOver = true;
         projectiles[i].y = -100;
       }
     }
+  }
+  if (
+    manishX < geekX &&
+    manishX + manish.width > geekX &&
+    manishY < geekY + geekHeight &&
+    manishY + manish.height > geekY
+  ) {
+    finished = true;
   }
   // Score
   ctx.font = "28px Chakra Petch";
@@ -293,8 +306,9 @@ function draw() {
   ctx.drawImage(manish, manishX, manishY);
 
   // Drawing main character-----------------------------
-
-  if (isRight) {
+  if (isJumping) {
+    ctx.drawImage(geekJump3, geekX, geekY, geekWidth + 50, geekHeight + 50);
+  } else if (isRight) {
     rightCount++;
     runIndex = rightCount % run.length;
     ctx.drawImage(run[runIndex], geekX, geekY, geekWidth, geekHeight);
@@ -316,6 +330,9 @@ function animation() {
   if (gameOver) {
     cancelAnimationFrame(intervalId);
     gameOverScreen();
+  } else if (finished === true) {
+    cancelAnimationFrame(intervalId);
+    finish();
   } else {
     intervalId = requestAnimationFrame(animation);
   }
@@ -335,6 +352,9 @@ function moves() {
   //Geek's moves--------------------------------------
   if (isRight == true) {
     geekX = geekX + geekSpeed;
+  }
+  if (geekX > manishX) {
+    isRight = false;
   }
 
   if (isJumping == true && geekY > 0) {
@@ -359,8 +379,19 @@ window.addEventListener("load", () => {
   gameOverImg.style.display = "none";
   gameOverText.style.display = "none";
   gameOverScore.style.display = "none";
-  startAudio.play();
-  startAudio.volume = 0.2;
+  finishTitle.style.display = "none";
+  finishText.style.display = "none";
+  finishImg.style.display = "none";
+  linkManish.style.display = "none";
+
+  audioBtn.addEventListener("click", (event) => {
+    if (startAudio.paused) {
+      startAudio.play();
+      startAudio.volume = 0.1;
+    } else {
+      startAudio.pause();
+    }
+  });
 
   document.addEventListener("keydown", (event) => {
     if (event.key == "ArrowRight") {
@@ -387,12 +418,12 @@ window.addEventListener("load", () => {
   });
 
   restartBtn.addEventListener("click", () => {
+    finished = false;
     gameOver = false;
     geekX = 100;
     geekY = 390;
     projectiles = [{ x: manishX, y: manishY, img: css, isGood: true }];
     score = 0;
     startPlaying();
-    //restartGame();
   });
 });

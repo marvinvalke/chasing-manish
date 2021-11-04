@@ -1,78 +1,41 @@
 # chasing-manish
-Javascript Game
+https://marvinvalke.github.io/chasing-manish/
 
 ## Description
 Chasing Manish is a game where the player has to jump to catch the pieces of his stolen code and dodge the error throwed by Manish. The game ends when the player get hitten by an error. When the game is over the score is calculated based on how many tag the player got and the amount of time the game lasted. 
 ## MVP (DOM - CANVAS)
 
-- game has a main character that moves vertically by jumping
+- game has a main character that moves horizontally and vertically by jumping
 - bricks of code are coming randomly from the right side of the screen
 - blocks of errors comes randomly from the right side of the screen 
 - getting hit by an error will end the game
-- bricks of code increases the score
-- Increasing dificulty
+- catching bricks of code increases the score
 
 ## Backlog
 
 - add scoreboard
-- add a levels 
-- possibility to start the game at different levels
-- boss fight on a shooter base
+- add musics
+- easter egg
 
 ## Data Structure
-# main.js
-
-- buildSptartcreen () {}
-- buildGameScreen () {}
-- buildGameOverScreen () {}
-
-# game.js
-
-- Game () {}
-- starLoop () {}
-- checkCollisions () {}
-- addCodes () {}
-- addErrors () {}
-- clearCanvas () {}
-- updateCanvas () {}
-- drawCanvas () {}
-- GameOver () {}
-
-# geek.js 
-
-- Geek () {
-    this.x;
-    this.y;
-    this.direction;
-    this.size
-}
-- draw () {}
-- jump () {}
+# script.js
+- targeting DOM element
+- global variables for sounds and images
+- game settings variables
+- startPlaying() 
+- gameOverScreen()
+- finish()
+- draw() 
+- animation()
+- moves()
+- window.addEventListener()
+- audioBtn.addEventListener()
+- document.addEventListener('keydown')
+- document.addEventListener('keyup')
+- restartBtn.addEventListener()
 
 
-# code.js 
 
-- Code () {
-    this.x;
-    this.y;
-    this.direction;
-    this.size
-}
-- draw () {}
-- move () {}
-- checkCollision () {}
-
-# error.js 
-
-- Error () {
-    this.x;
-    this.y;
-    this.direction;
-    this.size
-}
-- draw () {}
-- move () {}
-- checkCollision () {}
 
 ## States y States Transitions
 Definition of the different states and their transition (transition functions)
@@ -80,6 +43,7 @@ Definition of the different states and their transition (transition functions)
 - startScreen
 - gameScreen
 - gameOverScreen
+- gameFinishScreen
 
 ## Task
 
@@ -88,27 +52,27 @@ Definition of the different states and their transition (transition functions)
 - main - addEventListener
 - main - buildGameScreen
 - main - buildGameOverScreen
-- game - startLoop
+- main - buildGameFinishScreen
 - game - buildCanvas
-- game - updateCanvas
 - game - drawCanvas
-- code - draw
-- code - move
-- game - addCode
-- error - draw
-- error - move
-- game - addError
-- geek - draw
-- geek - move
-- game - addGeek
+- game - updateCanvas
+- game - addEventListener
 - game - checkCollision
 - game - GameOver
-- game - addEventListener
+- game - draw
+- game - startLoop
+- game - addScore
+- catch - draw
+- catch - move
+- error - draw
+- error - move
+- geek - draw
+- geek - move
+- manish - draw
+- manish - move
+
 
 ## Links
-
-### Trello
-[Link url](https://trello.com/b/weL1AYtp/chasing-manish)
 
 ### Git
 URls for the project repo and deploy

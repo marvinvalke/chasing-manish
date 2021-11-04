@@ -19,23 +19,45 @@
     <div class="startScreen">
 
         <h1 id="mainTitle">CHASING MANISH</h1>
+        <canvas width='800' height="500"></canvas>
+        <aside id='audioButton'>
+            <div class="botón" onclick="this.classList.toggle('active')">
+                <div class="fondo" x="0" y="0" width="100" height="100"></div>
+                <div class="icono" width="100" height="100">
+                    <div class="parte izquierda" x="0" y="0" width="100" height="100" fill="#fff"></div>
+                    <div class="parte derecha" x="0" y="0" width="100" height="100" fill="#fff"></div>
+                </div>
+                <div class="puntero"></div>
+            </div>
+        </aside>
+
         <img id='startImage' src="./images/codingIllustration.png" alt="">
         <div>
             <p id="intro">Becomming a great developer is not easy, but the Great Manish knows all the tricks to become a
                 master! <br> Catch programming languages but be careful of errors that might ruin your code.</p>
         </div>
-        <form aria-placeholder="YOUR NAME"></form>
+        <p id='instructions'> Use <img class="arrow" src="./images/arrow.png" width='20'> to run and <img
+                class="spacebar" src="./images/pngfind.com-spacebar-png-4008499.png" height='15'> to jump</p>
 
         <button id='start'>PLAY</button>
     </div>
 
-    <canvas width='800' height="500"></canvas>
     <h1 id="gameOverTitle">GAME OVER</h1>
     <h2 id="gameOverScore"></h2>
     <img id='gameOverImg' src="./images/gameOverImg.png" alt="">
     <p id="GameOverText">You didn't mastered all the coding skills yet... <br>
         Manish escaped with all his secrets. <br>Try again and this time don't let him run away !</p>
     <button id='restart'>TRY AGAIN</button>
+
+    <div id="finishScreen">
+        <h1 id="finishTitle">You catched the Great Manish</h1>
+        <p id="finishText">Now that you've become a master in coding <br>
+            You can try to become a great artist as well</p>
+        <img id="finishImg" src="./images/manishPainting.png" alt="">
+        <a id="linkManish" href="https://www.instagram.com/itspodu/?hl=fr"> - Inspiration -</a>
+    </div>
+
+
     <script src='script.js'></script>
 </body>
 
