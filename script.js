@@ -168,7 +168,6 @@ function gameOverScreen() {
   startAudio.volume = 0;
 }
 
-
 /* function restartGame () {
   gameOver = false;
   geekX = 100;
